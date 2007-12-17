@@ -1,0 +1,24 @@
+DESCRIPTION="GTK+ RGB-only paint program"
+HOMEPAGE="http://mtpaint.sourceforge.net/rgbpaint.html"
+SRC_URI="mirror://sourceforge/mtpaint/${P}.tar.bz2"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	./configure \
+		--prefix=/usr --bindir=/usr/bin --libdir=/usr/lib \
+		--locale=/usr/share/locale --mandir=/usr/share/man \
+		686 intl man \
+		|| error "configure failed"
+	cygmake
+}
+
+src_test() { :; }
+
+src_install() {
+	cd ${B}
+	cyginstall \
+		BIN_INSTALL=${D}/usr/bin \
+		MT_LANG_DEST=${D}/usr/share/locale \
+		MT_MAN_DEST=${D}/usr/share/man/man1
+}
